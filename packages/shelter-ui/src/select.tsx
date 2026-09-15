@@ -4,7 +4,6 @@ import {
   createMemo,
   createSignal,
   onCleanup,
-  Show,
   splitProps,
   useContext,
   type JSX,
@@ -234,7 +233,7 @@ export const Select: NativeExtendingComponent<SelectProps, JSX.HTMLAttributes<HT
         </button>
 
         <div id={menuId} class={classes.menu} role="listbox" aria-hidden={!open() || undefined}>
-          <Show when={open()}>{local.children}</Show>
+          {local.children}
         </div>
       </div>
     </SelectCtx.Provider>
@@ -242,19 +241,19 @@ export const Select: NativeExtendingComponent<SelectProps, JSX.HTMLAttributes<HT
 };
 
 type SelectItemProps = SelectProps & {
-  children: JSX.Element;
+  label: JSX.Element;
   note?: JSX.Element;
   hideBorder?: boolean;
 };
 export const SelectItem: NativeExtendingComponent<SelectItemProps, JSX.HTMLAttributes<HTMLDivElement>> = (rawProps) => {
   const id = genId();
 
-  const [local, other] = splitProps(rawProps, ["children", "note", "hideBorder"]);
+  const [local, other] = splitProps(rawProps, ["label", "note", "hideBorder"]);
 
   return (
     <div class={classes.sitem}>
       <label class={classes.ititle} for={id}>
-        {local.children}
+        {local.label}
       </label>
       <Select id={id} {...other} />
       {local.note !== undefined && <div class={classes.note}>{local.note}</div>}
